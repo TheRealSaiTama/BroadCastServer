@@ -31,9 +31,6 @@ This project features both terminal-based and web-based interfaces for seamless 
 - **Username Customization**: Change your display name anytime
 - **Error Handling**: Robust reconnection and error management
 
-<div align="center">
-  <img src="https://user-images.githubusercontent.com/assets/broadcast-demo.png" alt="3D Demo of Broadcast Server" width="80%">
-</div>
 
 ## 🔧 Installation
 
@@ -76,19 +73,6 @@ python broadcast_server.py connect
 ```
 
 Type messages to send, and use "quit" or "exit" to disconnect.
-
-<div align="center">
-  <table>
-   <tr>
-     <td align="center"><img src="https://user-images.githubusercontent.com/assets/terminal-demo.png" alt="Terminal View" width="400px"></td>
-     <td align="center"><img src="https://user-images.githubusercontent.com/assets/web-demo.png" alt="Web View" width="400px"></td>
-   </tr>
-   <tr>
-     <td align="center"><b>Terminal Interface</b></td>
-     <td align="center"><b>Web Interface</b></td>
-   </tr>
-  </table>
-</div>
 
 ## 💬 Web Interface Features
 
