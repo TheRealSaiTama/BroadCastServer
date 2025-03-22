@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Broadcast Chat | Real-time Communication</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/static/css/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- Sidebar with active users -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <h2>Broadcast Chat</h2>
+          <div class="connection-status">
+            <span class="status-dot"></span>
+            <span class="status-text">Connecting...</span>
+          </div>
+        </div>
+        <div class="profile-section">
+          <div class="avatar">
+            <div class="avatar-image"><i class="fas fa-user"></i></div>
+          </div>
+          <div class="profile-details">
+            <div class="username-container">
+              <span class="username-display">Guest</span>
+              <button class="edit-username-btn" title="Edit username">
+                <i class="fas fa-edit"></i>
+              </button>
+            </div>
+            <span class="user-id">ID: -</span>
+          </div>
+        </div>
+        <div class="active-users-section">
+          <h3>Active Users <span class="user-count">(0)</span></h3>
+          <ul class="active-users-list"></ul>
+        </div>
+        <div class="sidebar-footer">
+          <p>© 2025 Broadcast Chat</p>
+          <div class="theme-toggle">
+            <span>Theme</span>
+            <label class="switch">
+              <input type="checkbox" id="theme-toggle" />
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main chat area -->
+      <main class="chat-area">
+        <div class="chat-header">
+          <button class="toggle-sidebar-btn">
+            <i class="fas fa-bars"></i>
+          </button>
+          <h1>Broadcast Messages</h1>
+          <div class="header-actions">
+            <button class="clear-messages-btn" title="Clear messages">
+              <i class="fas fa-broom"></i>
+            </button>
+            <div class="dropdown">
+              <button class="options-btn" title="Options">
+                <i class="fas fa-ellipsis-v"></i>
+              </button>
+              <div class="dropdown-content">
+                <a href="#" id="export-chat">Export Chat</a>
+                <a href="#" id="toggle-timestamps">Toggle Timestamps</a>
+                <a href="#" id="toggle-notifications">Toggle Notifications</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="messages-container">
+          <div class="typing-indicator hidden">
+            <div class="typing-animation">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div class="typing-text">Someone is typing...</div>
+          </div>
+          <div class="welcome-message">
+            <div class="welcome-icon">
+              <i class="fas fa-broadcast-tower"></i>
+            </div>
+            <h2>Welcome to Broadcast Chat</h2>
+            <p>
+              Start sending messages to broadcast them to all connected users.
+            </p>
+          </div>
+          <div class="messages"></div>
+        </div>
+
+        <div class="input-area">
+          <div class="emoji-picker-container">
+            <button class="emoji-picker-toggle" title="Insert Emoji">
+              <i class="far fa-smile"></i>
+            </button>
+            <div class="emoji-picker hidden">
+              <div class="emoji-categories">
+                <span class="emoji-category active" data-category="smileys"
+                  >😊</span
+                >
+                <span class="emoji-category" data-category="gestures">👍</span>
+                <span class="emoji-category" data-category="people">👨</span>
+                <span class="emoji-category" data-category="animals">🐶</span>
+                <span class="emoji-category" data-category="food">🍔</span>
+                <span class="emoji-category" data-category="travel">🚀</span>
+                <span class="emoji-category" data-category="symbols">❤️</span>
+              </div>
+              <div class="emoji-list">
+                <!-- Emojis will be added by JavaScript -->
+              </div>
+            </div>
+          </div>
+          <div class="message-input-container">
+            <textarea
+              class="message-input"
+              placeholder="Type a message..."
+              rows="1"
+              maxlength="1000"
+            ></textarea>
+            <div class="input-actions">
+              <button class="attachment-btn" title="Attachment (Coming Soon)">
+                <i class="fas fa-paperclip"></i>
+              </button>
+            </div>
+          </div>
+          <button class="send-btn" title="Send Message" disabled>
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </main>
+    </div>
+
+    <!-- Edit username modal -->
+    <div class="modal-overlay hidden" id="username-modal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>Change Your Username</h3>
+          <button class="close-modal-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+          <form id="username-form">
+            <div class="form-group">
+              <label for="username-input">New Username</label>
+              <input
+                type="text"
+                id="username-input"
+                placeholder="Enter a username"
+                maxlength="20"
+                minlength="3"
+                required
+              />
+            </div>
+            <div class="form-actions">
+              <button type="button" class="cancel-btn">Cancel</button>
+              <button type="submit" class="save-btn">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Connection lost overlay -->
+    <div class="connection-overlay hidden">
+      <div class="connection-message">
+        <div class="connection-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <h3>Connection Lost</h3>
+        <p>Trying to reconnect...</p>
+        <div class="reconnecting-animation">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast notifications container -->
+    <div class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="/static/js/chat.js"></script>
+    <script src="/static/js/ui.js"></script>
+  </body>
+</html>
